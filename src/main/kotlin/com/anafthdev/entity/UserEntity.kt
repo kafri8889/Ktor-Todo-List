@@ -1,6 +1,7 @@
 package com.anafthdev.entity
 
 import com.anafthdev.model.ExposedUser
+import com.anafthdev.model.db.CategoryTable
 import com.anafthdev.model.db.UserTable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -12,6 +13,8 @@ class UserEntity(id: EntityID<Int>) : IntEntity(id) {
     var name by UserTable.name
     var email by UserTable.email
     var password by UserTable.password
+
+    val categories by CategoryEntity referrersOn CategoryTable.userId
 
     fun toExposedUser(): ExposedUser = ExposedUser(
         id = id.value,

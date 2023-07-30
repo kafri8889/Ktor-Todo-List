@@ -9,5 +9,5 @@ class CategoryEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object: IntEntityClass<CategoryEntity>(CategoryTable)
 
     var name by CategoryTable.name
-    var userId by CategoryTable.userId
+    var userId by UserEntity referencedOn CategoryTable.userId
 }
