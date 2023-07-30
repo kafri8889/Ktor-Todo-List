@@ -7,5 +7,6 @@ data class ExposedUser(
     val id: Int,
     val name: String,
     val email: String,
-    val password: String
+    val password: String,
+    val categories: List<ExposedCategory>? = null
 )
