@@ -12,7 +12,7 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
-class SubSubTodoService(database: Database) {
+class SubTodoService(database: Database) {
 
     init {
         transaction(database) {
