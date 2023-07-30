@@ -11,7 +11,8 @@ import io.ktor.server.routing.*
 fun Application.configureRouting() {
     install(StatusPages) {
         exception<Throwable> { call, cause ->
-            call.respondText(text = "500: $cause" , status = HttpStatusCode.InternalServerError)
+            cause.printStackTrace()
+            call.respondText(text = "500: $cause | ${cause.message}" , status = HttpStatusCode.InternalServerError)
         }
     }
     install(AutoHeadResponse)

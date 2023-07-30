@@ -19,13 +19,13 @@ class UserService(database: Database) {
         }
     }
 
-    suspend fun insert(user: ExposedUser): UserEntity {
+    suspend fun insert(user: ExposedUser): ExposedUser {
         return dbQuery {
             UserEntity.new {
                 name = user.name
                 email = user.email
                 password = user.password
-            }
+            }.toExposedUser()
         }
     }
 

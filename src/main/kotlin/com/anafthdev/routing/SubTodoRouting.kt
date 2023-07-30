@@ -16,7 +16,7 @@ fun Application.subTodoRouting(subTodoService: SubTodoService) {
     routing {
         post("/subTodo") {
             val subTodo = Gson().fromJson(call.receiveText(), ExposedSubTodo::class.java)
-            val exposedSubTodo = subTodoService.insert(subTodo).toExposedSubTodo()
+            val exposedSubTodo = subTodoService.insert(subTodo)
             call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.Created.value, "SubTodo berhasil dibuat", exposedSubTodo)))
         }
 

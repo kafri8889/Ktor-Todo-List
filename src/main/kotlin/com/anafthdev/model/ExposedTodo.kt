@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ExposedTodo(
+    val id: Int,
     val userId: Int,
     val categoryId: Int,
     val title: String,

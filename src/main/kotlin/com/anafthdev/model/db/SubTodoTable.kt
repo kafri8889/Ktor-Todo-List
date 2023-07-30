@@ -13,6 +13,6 @@ object SubTodoTable: IntIdTable() {
         name = "todo_id",
         foreign = TodoTable,
         onDelete = ReferenceOption.CASCADE,
-        onUpdate = ReferenceOption.CASCADE
+        onUpdate = ReferenceOption.NO_ACTION
     )
 }

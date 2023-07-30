@@ -20,14 +20,14 @@ class SubTodoService(database: Database) {
         }
     }
 
-    suspend fun insert(subTodo: ExposedSubTodo): SubTodoEntity {
+    suspend fun insert(subTodo: ExposedSubTodo): ExposedSubTodo {
         return dbQuery {
             SubTodoEntity.new {
                 title = subTodo.title
                 createdAt = subTodo.createdAt
                 finished = subTodo.finished
                 todoId = TodoEntity[subTodo.todoId]
-            }
+            }.toExposedSubTodo()
         }
     }
 

@@ -16,7 +16,7 @@ fun Application.todoRouting(todoService: TodoService) {
     routing {
         post("/todo") {
             val todo = Gson().fromJson(call.receiveText(), ExposedTodo::class.java)
-            val exposedTodo = todoService.insert(todo).toExposedTodo()
+            val exposedTodo = todoService.insert(todo)
             call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.Created.value, "Todo berhasil dibuat", exposedTodo)))
         }
 

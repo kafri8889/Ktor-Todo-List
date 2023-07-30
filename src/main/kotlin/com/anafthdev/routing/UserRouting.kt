@@ -16,7 +16,7 @@ fun Application.userRouting(userService: UserService) {
     routing {
         post("/user") {
             val user = Gson().fromJson(call.receiveText(), ExposedUser::class.java)
-            val exposedUser = userService.insert(user).toExposedUser()
+            val exposedUser = userService.insert(user)
             call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.Created.value, "User berhasil dibuat", exposedUser)))
         }
 

@@ -20,7 +20,7 @@ class TodoService(database: Database) {
         }
     }
 
-    suspend fun insert(todo: ExposedTodo): TodoEntity {
+    suspend fun insert(todo: ExposedTodo): ExposedTodo {
         return dbQuery {
             TodoEntity.new {
                 categoryId = todo.categoryId
@@ -29,7 +29,7 @@ class TodoService(database: Database) {
                 createdAt = todo.createdAt
                 finished = todo.finished
                 userId = UserEntity[todo.userId]
-            }
+            }.toExposedTodo()
         }
     }
 

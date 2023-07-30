@@ -20,12 +20,12 @@ class CategoryService(database: Database) {
         }
     }
 
-    suspend fun insert(category: ExposedCategory): CategoryEntity {
+    suspend fun insert(category: ExposedCategory): ExposedCategory {
         return dbQuery {
             CategoryEntity.new {
                 name = category.name
                 userId = UserEntity[category.userId]
-            }
+            }.toExposedCategory()
         }
     }
 

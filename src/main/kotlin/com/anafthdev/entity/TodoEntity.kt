@@ -21,6 +21,7 @@ class TodoEntity(id: EntityID<Int>) : IntEntity(id) {
     val subTodo: SizedIterable<SubTodoEntity>? by SubTodoEntity referrersOn SubTodoTable.todoId
 
     fun toExposedTodo(): ExposedTodo = ExposedTodo(
+        id = id.value,
         userId = userId.id.value,
         categoryId = categoryId,
         title = title,

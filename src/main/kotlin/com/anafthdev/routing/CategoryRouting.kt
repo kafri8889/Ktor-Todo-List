@@ -16,7 +16,7 @@ fun Application.categoryRouting(categoryService: CategoryService) {
     routing {
         post("/category") {
             val category = Gson().fromJson(call.receiveText(), ExposedCategory::class.java)
-            val exposedCategory = categoryService.insert(category).toExposedCategory()
+            val exposedCategory = categoryService.insert(category)
             call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.Created.value, "Category berhasil dibuat", exposedCategory)))
         }
 
