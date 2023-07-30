@@ -8,5 +8,6 @@ data class ExposedUser(
     val name: String,
     val email: String,
     val password: String,
-    val categories: List<ExposedCategory>? = null
+    val categories: List<ExposedCategory>? = null,
+    val todo: List<ExposedTodo>? = null
 )
