@@ -3,7 +3,6 @@ package com.anafthdev.services
 import com.anafthdev.common.dbQuery
 import com.anafthdev.entity.UserEntity
 import com.anafthdev.model.ExposedUser
-import com.anafthdev.model.db.CategoryTable
 import com.anafthdev.model.db.UserTable
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -12,11 +11,11 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
-class UserService(private val database: Database) {
+class UserService(database: Database) {
+
     init {
         transaction(database) {
             SchemaUtils.create(UserTable)
-            SchemaUtils.create(CategoryTable)
         }
     }
 
