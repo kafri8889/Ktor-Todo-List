@@ -1,15 +1,14 @@
 package com.anafthdev.services
 
+import com.anafthdev.common.dbQuery
 import com.anafthdev.entity.UserEntity
 import com.anafthdev.model.ExposedUser
 import com.anafthdev.model.db.CategoryTable
 import com.anafthdev.model.db.UserTable
-import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 
@@ -20,9 +19,6 @@ class UserService(private val database: Database) {
             SchemaUtils.create(CategoryTable)
         }
     }
-
-    suspend fun <T> dbQuery(block: suspend () -> T): T =
-        newSuspendedTransaction(Dispatchers.IO) { block() }
 
     suspend fun insert(user: ExposedUser): UserEntity {
         return dbQuery {
