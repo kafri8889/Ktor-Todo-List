@@ -8,6 +8,6 @@ import io.ktor.server.response.*
 import io.ktor.util.pipeline.*
 
 suspend inline fun PipelineContext<Unit, ApplicationCall>.checkId(id: Int?, block: () -> Unit) {
-    if (id == null) call.respondText(Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "Param \"id\" not found")))
+    if (id == null) call.respondText(Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "Bad request: \"id\" not found")))
     else block()
 }
