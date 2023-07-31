@@ -17,7 +17,10 @@ fun Application.categoryRouting(categoryService: CategoryService) {
         post("/category") {
             val category = Gson().fromJson(call.receiveText(), ExposedCategory::class.java)
             val exposedCategory = categoryService.insert(category)
-            call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.Created.value, "Category berhasil dibuat", exposedCategory)))
+            call.respondText(
+                contentType = ContentType.Application.Json,
+                text = Gson().toJson(SuccessResponse(HttpStatusCode.Created.value, "Category berhasil dibuat", exposedCategory))
+            )
         }
 
         get("/category/{id}") {
@@ -25,8 +28,14 @@ fun Application.categoryRouting(categoryService: CategoryService) {
             checkId(id) {
                 val category = categoryService.get(id!!)
                 if (category != null) {
-                    call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Category found", category)))
-                } else call.respondText(Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "Category not found")))
+                    call.respondText(
+                        contentType = ContentType.Application.Json,
+                        text = Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Category found", category))
+                    )
+                } else call.respondText(
+                    contentType = ContentType.Application.Json,
+                    text = Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "Category not found"))
+                )
             }
         }
 
@@ -35,8 +44,14 @@ fun Application.categoryRouting(categoryService: CategoryService) {
             checkId(userId) {
                 val categories = categoryService.getByUserId(userId!!)
                 if (categories.isNotEmpty()) {
-                    call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "", categories)))
-                } else call.respondText(Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "Category not found")))
+                    call.respondText(
+                        contentType = ContentType.Application.Json,
+                        text = Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "", categories))
+                    )
+                } else call.respondText(
+                    contentType = ContentType.Application.Json,
+                    text = Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "Category not found"))
+                )
             }
         }
 
@@ -45,7 +60,10 @@ fun Application.categoryRouting(categoryService: CategoryService) {
             checkId(id) {
                 val category = Gson().fromJson(call.receiveText(), ExposedCategory::class.java)
                 val exposedCategory = categoryService.update(id!!, category)
-                call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Category berhasil diupdate", exposedCategory)))
+                call.respondText(
+                    contentType = ContentType.Application.Json,
+                    text = Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Category berhasil diupdate", exposedCategory))
+                )
             }
         }
 
@@ -53,7 +71,10 @@ fun Application.categoryRouting(categoryService: CategoryService) {
             val id = call.parameters["id"]?.toInt()
             checkId(id) {
                 val exposedCategory = categoryService.delete(id!!)
-                call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Category berhasil dihapus", exposedCategory)))
+                call.respondText(
+                    contentType = ContentType.Application.Json,
+                    text = Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Category berhasil dihapus", exposedCategory))
+                )
             }
         }
     }

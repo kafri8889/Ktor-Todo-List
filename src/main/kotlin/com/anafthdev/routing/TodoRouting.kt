@@ -17,7 +17,10 @@ fun Application.todoRouting(todoService: TodoService) {
         post("/todo") {
             val todo = Gson().fromJson(call.receiveText(), ExposedTodo::class.java)
             val exposedTodo = todoService.insert(todo)
-            call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.Created.value, "Todo berhasil dibuat", exposedTodo)))
+            call.respondText(
+                contentType = ContentType.Application.Json,
+                text = Gson().toJson(SuccessResponse(HttpStatusCode.Created.value, "Todo berhasil dibuat", exposedTodo))
+            )
         }
 
         get("/todo/{id}") {
@@ -25,8 +28,14 @@ fun Application.todoRouting(todoService: TodoService) {
             checkId(id) {
                 val todo = todoService.get(id!!)
                 if (todo != null) {
-                    call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Todo found", todo)))
-                } else call.respondText(Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "Todo not found")))
+                    call.respondText(
+                        contentType = ContentType.Application.Json,
+                        text = Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Todo found", todo))
+                    )
+                } else call.respondText(
+                    contentType = ContentType.Application.Json,
+                    text = Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "Todo not found"))
+                )
             }
         }
 
@@ -36,11 +45,17 @@ fun Application.todoRouting(todoService: TodoService) {
             when {
                 categoryId != null -> {
                     val todoList = todoService.getByCategoryId(categoryId)
-                    call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Todo found", todoList)))
+                    call.respondText(
+                        contentType = ContentType.Application.Json,
+                        text = Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Todo found", todoList))
+                    )
                 }
                 userId != null -> {
                     val todoList = todoService.getByUserId(userId)
-                    call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Todo found", todoList)))
+                    call.respondText(
+                        contentType = ContentType.Application.Json,
+                        text = Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Todo found", todoList))
+                    )
                 }
                 else -> checkId(null) {}
             }
@@ -51,7 +66,10 @@ fun Application.todoRouting(todoService: TodoService) {
             checkId(id) {
                 val todo = Gson().fromJson(call.receiveText(), ExposedTodo::class.java)
                 val exposedTodo = todoService.update(id!!, todo)
-                call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Todo berhasil diupdate", exposedTodo)))
+                call.respondText(
+                    contentType = ContentType.Application.Json,
+                    text = Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Todo berhasil diupdate", exposedTodo))
+                )
             }
         }
 
@@ -59,7 +77,10 @@ fun Application.todoRouting(todoService: TodoService) {
             val id = call.parameters["id"]?.toInt()
             checkId(id) {
                 val exposedTodo = todoService.delete(id!!)
-                call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Todo berhasil dihapus", exposedTodo)))
+                call.respondText(
+                    contentType = ContentType.Application.Json,
+                    text = Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Todo berhasil dihapus", exposedTodo))
+                )
             }
         }
     }

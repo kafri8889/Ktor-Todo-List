@@ -29,8 +29,11 @@ class UserService(database: Database) {
         }
     }
 
-    suspend fun get(id: Int): ExposedUser? {
-        return dbQuery { UserEntity.findById(id)?.toExposedUser() }
+    /**
+     * if [include], ExposedUser will include [ExposedUser.categories] and [ExposedUser.todo]
+     */
+    suspend fun get(id: Int, include: Boolean = false): ExposedUser? {
+        return dbQuery { UserEntity.findById(id)?.toExposedUser(include) }
     }
 
     suspend fun update(id: Int, user: ExposedUser) {

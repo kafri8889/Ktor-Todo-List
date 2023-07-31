@@ -17,16 +17,26 @@ fun Application.userRouting(userService: UserService) {
         post("/user") {
             val user = Gson().fromJson(call.receiveText(), ExposedUser::class.java)
             val exposedUser = userService.insert(user)
-            call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.Created.value, "User berhasil dibuat", exposedUser)))
+            call.respondText(
+                contentType = ContentType.Application.Json,
+                text = Gson().toJson(SuccessResponse(HttpStatusCode.Created.value, "User created", exposedUser))
+            )
         }
 
         get("/user/{id}") {
             val id = call.parameters["id"]?.toInt()
+            val include = call.request.queryParameters["include"]?.toBoolean()
             checkId(id) {
-                val user = userService.get(id!!)
-                if (user != null) {
-                    call.respondText(Gson().toJson(user))
-                } else call.respondText(Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "User not found")))
+                val exposedUser = userService.get(id!!, include ?: false)
+                if (exposedUser != null) {
+                    call.respondText(
+                        contentType = ContentType.Application.Json,
+                        text = Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "User found", exposedUser))
+                    )
+                } else call.respondText(
+                    contentType = ContentType.Application.Json,
+                    text = Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "User not found"))
+                )
             }
         }
 
@@ -35,7 +45,10 @@ fun Application.userRouting(userService: UserService) {
             checkId(id) {
                 val user = Gson().fromJson(call.receiveText(), ExposedUser::class.java)
                 val exposedUser = userService.update(id!!, user)
-                call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "User berhasil diupdate", exposedUser)))
+                call.respondText(
+                    contentType = ContentType.Application.Json,
+                    text = Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "User updated", exposedUser))
+                )
             }
         }
 
@@ -43,7 +56,10 @@ fun Application.userRouting(userService: UserService) {
             val id = call.parameters["id"]?.toInt()
             checkId(id) {
                 val exposedUser = userService.delete(id!!)
-                call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "User berhasil dihapus", exposedUser)))
+                call.respondText(
+                    contentType = ContentType.Application.Json,
+                    text = Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "User deleted", exposedUser))
+                )
             }
         }
     }

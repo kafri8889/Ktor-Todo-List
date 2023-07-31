@@ -22,7 +22,7 @@ class UserEntity(id: EntityID<Int>) : IntEntity(id) {
     /**
      * if [include], ExposedUser will include [ExposedUser.categories] and [ExposedUser.todo]
      */
-    fun toExposedUser(include: Boolean = true): ExposedUser = ExposedUser(
+    fun toExposedUser(include: Boolean = false): ExposedUser = ExposedUser(
         id = id.value,
         name = name,
         email = email,

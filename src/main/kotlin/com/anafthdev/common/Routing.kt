@@ -9,9 +9,10 @@ import io.ktor.util.pipeline.*
 
 suspend inline fun PipelineContext<Unit, ApplicationCall>.checkId(id: Int?, block: () -> Unit) {
     if (id == null) call.respondText(
-        Gson().toJson(
+        contentType = ContentType.Application.Json,
+        text = Gson().toJson(
             ErrorResponse(
-                HttpStatusCode.NotFound.value,
+                HttpStatusCode.BadRequest.value,
                 "Bad request: Param or query not found"
             )
         )
