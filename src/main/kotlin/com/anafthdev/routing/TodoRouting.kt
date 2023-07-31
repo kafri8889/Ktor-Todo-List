@@ -30,6 +30,22 @@ fun Application.todoRouting(todoService: TodoService) {
             }
         }
 
+        get("/todo") {
+            val categoryId = call.request.queryParameters["categoryId"]?.toInt()
+            val userId = call.request.queryParameters["userId"]?.toInt()
+            when {
+                categoryId != null -> {
+                    val todoList = todoService.getByCategoryId(categoryId)
+                    call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Todo found", todoList)))
+                }
+                userId != null -> {
+                    val todoList = todoService.getByUserId(userId)
+                    call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Todo found", todoList)))
+                }
+                else -> checkId(null) {}
+            }
+        }
+
         put("/todo/{id}") {
             val id = call.parameters["id"]?.toInt()
             checkId(id) {

@@ -37,6 +37,14 @@ class TodoService(database: Database) {
         return dbQuery { TodoEntity.findById(id)?.toExposedTodo() }
     }
 
+    suspend fun getByCategoryId(id: Int): List<ExposedTodo> {
+        return dbQuery { TodoEntity.find { TodoTable.categoryId eq id }.map { it.toExposedTodo() } }
+    }
+
+    suspend fun getByUserId(id: Int): List<ExposedTodo> {
+        return dbQuery { TodoEntity.find { TodoTable.userId eq id }.map { it.toExposedTodo() } }
+    }
+
     suspend fun update(id: Int, todo: ExposedTodo) {
         dbQuery {
             TodoTable.update({ TodoTable.id eq id }) {
