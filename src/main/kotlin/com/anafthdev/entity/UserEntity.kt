@@ -19,12 +19,15 @@ class UserEntity(id: EntityID<Int>) : IntEntity(id) {
     val todo: SizedIterable<TodoEntity>? by TodoEntity referrersOn TodoTable.userId
     val categories: SizedIterable<CategoryEntity>? by CategoryEntity referrersOn CategoryTable.userId
 
-    fun toExposedUser(): ExposedUser = ExposedUser(
+    /**
+     * if [include], ExposedUser will include [ExposedUser.categories] and [ExposedUser.todo]
+     */
+    fun toExposedUser(include: Boolean = true): ExposedUser = ExposedUser(
         id = id.value,
         name = name,
         email = email,
         password = password,
-        categories = categories?.map { it.toExposedCategory() } ?: emptyList(),
-        todo = todo?.map { it.toExposedTodo() } ?: emptyList()
+        categories = if (include) categories?.map { it.toExposedCategory() } ?: emptyList() else null,
+        todo = if (include) todo?.map { it.toExposedTodo() } ?: emptyList() else null
     )
 }

@@ -25,7 +25,7 @@ fun Application.todoRouting(todoService: TodoService) {
             checkId(id) {
                 val todo = todoService.get(id!!)
                 if (todo != null) {
-                    call.respondText(Gson().toJson(todo))
+                    call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Todo found", todo)))
                 } else call.respondText(Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "Todo not found")))
             }
         }
