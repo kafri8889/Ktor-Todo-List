@@ -25,7 +25,7 @@ fun Application.categoryRouting(categoryService: CategoryService) {
             checkId(id) {
                 val category = categoryService.get(id!!)
                 if (category != null) {
-                    call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "", category)))
+                    call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Category found", category)))
                 } else call.respondText(Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "Category not found")))
             }
         }
