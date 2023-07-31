@@ -20,12 +20,22 @@ fun Application.subTodoRouting(subTodoService: SubTodoService) {
             call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.Created.value, "SubTodo berhasil dibuat", exposedSubTodo)))
         }
 
+        get("/subTodo") {
+            val todoId = call.request.queryParameters["todoId"]?.toInt()
+            checkId(todoId) {
+                val subTodo = subTodoService.getByTodoId(todoId!!)
+                if (subTodo.isNotEmpty()) {
+                    call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Sub todo found", subTodo)))
+                } else call.respondText(Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "SubTodo not found or empty")))
+            }
+        }
+
         get("/subTodo/{id}") {
             val id = call.parameters["id"]?.toInt()
             checkId(id) {
                 val subTodo = subTodoService.get(id!!)
                 if (subTodo != null) {
-                    call.respondText(Gson().toJson(subTodo))
+                    call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Sub todo found", subTodo)))
                 } else call.respondText(Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "SubTodo not found")))
             }
         }

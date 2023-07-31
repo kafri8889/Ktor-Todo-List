@@ -35,6 +35,10 @@ class SubTodoService(database: Database) {
         return dbQuery { SubTodoEntity.findById(id)?.toExposedSubTodo() }
     }
 
+    suspend fun getByTodoId(id: Int): List<ExposedSubTodo> {
+        return dbQuery { SubTodoEntity.find { SubTodoTable.todoId eq id }.map { it.toExposedSubTodo() } }
+    }
+
     suspend fun update(id: Int, subTodo: ExposedSubTodo) {
         dbQuery {
             SubTodoTable.update({ SubTodoTable.id eq id }) {
