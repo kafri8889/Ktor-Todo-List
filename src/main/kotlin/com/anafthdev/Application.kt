@@ -3,6 +3,7 @@ package com.anafthdev
 import com.anafthdev.plugins.configureDatabases
 import com.anafthdev.plugins.configureMonitoring
 import com.anafthdev.plugins.configureRouting
+import com.anafthdev.plugins.configureSecurity
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
@@ -26,6 +27,6 @@ fun Application.module() {
     configureDatabases()
     configureMonitoring()
 //    configureHTTP()
-//    configureSecurity()
+    configureSecurity()
     configureRouting()
 }
