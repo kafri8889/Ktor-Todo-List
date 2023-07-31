@@ -33,6 +33,10 @@ class CategoryService(database: Database) {
         return dbQuery { CategoryEntity.findById(id)?.toExposedCategory() }
     }
 
+    suspend fun getByUserId(id: Int): List<ExposedCategory> {
+        return dbQuery { CategoryEntity.find { CategoryTable.userId eq id }.map { it.toExposedCategory() } }
+    }
+
     suspend fun update(id: Int, category: ExposedCategory) {
         dbQuery {
             CategoryTable.update({ CategoryTable.id eq id }) {

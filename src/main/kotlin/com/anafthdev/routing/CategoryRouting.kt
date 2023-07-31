@@ -25,7 +25,17 @@ fun Application.categoryRouting(categoryService: CategoryService) {
             checkId(id) {
                 val category = categoryService.get(id!!)
                 if (category != null) {
-                    call.respondText(Gson().toJson(category))
+                    call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "", category)))
+                } else call.respondText(Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "Category not found")))
+            }
+        }
+
+        get("/category/user/{userId}") {
+            val userId = call.parameters["userId"]?.toInt()
+            checkId(userId) {
+                val categories = categoryService.getByUserId(userId!!)
+                if (categories.isNotEmpty()) {
+                    call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "", categories)))
                 } else call.respondText(Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "Category not found")))
             }
         }
