@@ -33,7 +33,7 @@ fun Application.userRouting(userService: UserService) {
         put("/user/{id}") {
             val id = call.parameters["id"]?.toInt()
             checkId(id) {
-                val user = call.receive<ExposedUser>()
+                val user = Gson().fromJson(call.receiveText(), ExposedUser::class.java)
                 val exposedUser = userService.update(id!!, user)
                 call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "User berhasil diupdate", exposedUser)))
             }

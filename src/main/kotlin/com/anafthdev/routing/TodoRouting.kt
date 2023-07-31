@@ -49,7 +49,7 @@ fun Application.todoRouting(todoService: TodoService) {
         put("/todo/{id}") {
             val id = call.parameters["id"]?.toInt()
             checkId(id) {
-                val todo = call.receive<ExposedTodo>()
+                val todo = Gson().fromJson(call.receiveText(), ExposedTodo::class.java)
                 val exposedTodo = todoService.update(id!!, todo)
                 call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Todo berhasil diupdate", exposedTodo)))
             }

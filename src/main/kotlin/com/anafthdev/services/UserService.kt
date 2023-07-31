@@ -36,7 +36,6 @@ class UserService(database: Database) {
     suspend fun update(id: Int, user: ExposedUser) {
         dbQuery {
             UserTable.update({ UserTable.id eq id }) {
-                it[this.id] = user.id
                 it[name] = user.name
                 it[email] = user.email
                 it[password] = user.password

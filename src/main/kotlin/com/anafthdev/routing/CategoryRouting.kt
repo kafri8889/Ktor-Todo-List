@@ -43,7 +43,7 @@ fun Application.categoryRouting(categoryService: CategoryService) {
         put("/category/{id}") {
             val id = call.parameters["id"]?.toInt()
             checkId(id) {
-                val category = call.receive<ExposedCategory>()
+                val category = Gson().fromJson(call.receiveText(), ExposedCategory::class.java)
                 val exposedCategory = categoryService.update(id!!, category)
                 call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "Category berhasil diupdate", exposedCategory)))
             }

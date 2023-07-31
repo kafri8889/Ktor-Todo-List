@@ -33,7 +33,7 @@ fun Application.subTodoRouting(subTodoService: SubTodoService) {
         put("/subTodo/{id}") {
             val id = call.parameters["id"]?.toInt()
             checkId(id) {
-                val subTodo = call.receive<ExposedSubTodo>()
+                val subTodo = Gson().fromJson(call.receiveText(), ExposedSubTodo::class.java)
                 val exposedSubTodo = subTodoService.update(id!!, subTodo)
                 call.respondText(Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "SubTodo berhasil diupdate", exposedSubTodo)))
             }

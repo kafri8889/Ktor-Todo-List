@@ -11,6 +11,6 @@ object CategoryTable: IntIdTable() {
         name = "user_id",
         foreign = UserTable,
         onDelete = ReferenceOption.CASCADE,
-        onUpdate = ReferenceOption.NO_ACTION
+        onUpdate = ReferenceOption.CASCADE
     )
 }
