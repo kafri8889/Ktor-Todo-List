@@ -30,8 +30,8 @@ fun Application.categoryRouting(categoryService: CategoryService) {
             }
         }
 
-        get("/category/user/{userId}") {
-            val userId = call.parameters["userId"]?.toInt()
+        get("/category") {
+            val userId = call.request.queryParameters["userId"]?.toInt()
             checkId(userId) {
                 val categories = categoryService.getByUserId(userId!!)
                 if (categories.isNotEmpty()) {
