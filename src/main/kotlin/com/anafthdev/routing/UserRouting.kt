@@ -23,6 +23,25 @@ fun Application.userRouting(userService: UserService) {
             )
         }
 
+        get("/user") {
+            val email = call.request.queryParameters["email"]
+            val password = call.request.queryParameters["password"]
+            val include = call.request.queryParameters["include"]?.toBoolean()
+
+            if (email != null && password != null) {
+                val exposedUser = userService.getByEmailAndPassword(email, password, include ?: false)
+                if (exposedUser != null) {
+                    call.respondText(
+                        contentType = ContentType.Application.Json,
+                        text = Gson().toJson(SuccessResponse(HttpStatusCode.OK.value, "User found", exposedUser))
+                    )
+                } else call.respondText(
+                    contentType = ContentType.Application.Json,
+                    text = Gson().toJson(ErrorResponse(HttpStatusCode.NotFound.value, "User not found"))
+                )
+            } else checkId(null) {}
+        }
+
         get("/user/{id}") {
             val id = call.parameters["id"]?.toInt()
             val include = call.request.queryParameters["include"]?.toBoolean()

@@ -56,7 +56,100 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    get:
+      tags:
+        - User
+      summary: Get user by email and password
+      operationId: getUserByEmailAndPassword
+      parameters:
+        - name: email
+          in: query
+          required: true
+        - name: password
+          in: query
+          required: true
+        - name: include
+          in: query
+          description: if true, return User with "categories" and "todo"
+          schema:
+            type: boolean
+            nullable: false
+            default: false
+      responses:
+        '200':
+          description: Return user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: User found
+                  data:
+                    $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request Param or query not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /user/{id}:
+    get:
+      tags:
+        - User
+      summary: Get user by id
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+        - name: include
+          in: query
+          description: if true, return User with "categories" and "todo"
+          schema:
+            type: boolean
+            nullable: false
+            default: false
+      responses:
+        '200':
+          description: Return user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: User found
+                  data:
+                    $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request Param or query not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     put:
       tags:
         - User
@@ -91,51 +184,6 @@ paths:
                     example: User updated
                   data:
                     $ref: '#/components/schemas/User Request Body'
-        '400':
-          description: Bad request Param or query not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-        '404':
-          description: User not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-    get:
-      tags:
-        - User
-      summary: Get user by id
-      operationId: getUserById
-      parameters:
-        - name: id
-          in: path
-          required: true
-        - name: include
-          in: query
-          description: if true, return User with "categories" and "todo"
-          schema:
-            type: boolean
-            nullable: false
-            default: false
-      responses:
-        '200':
-          description: Return user
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 200
-                  message:
-                    type: string
-                    example: User found
-                  data:
-                    $ref: '#/components/schemas/User'
         '400':
           description: Bad request Param or query not found
           content:
