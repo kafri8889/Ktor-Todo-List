@@ -1,10 +1,23 @@
 # Ktor-Todo-List
 
-API untuk todo list, menggunakan kotlin ktor
+Todo list API built with kotlin Ktor
 
-Aplikasinya nanti remake dari repo [To-Do_Jetpack_Compose](https://github.com/kafri8889/To-Do_Jetpack_Compose)
+<p float="left">
+  <img src="https://github.com/kafri8889/resources/blob/main/swagger_ktor_todo.png" height="338" width="700" >
+</p>
 
-## Table
+## How to use
+- Clone repository
+- Run `Application.kt`
+- Accessing API: `http://0.0.0.0:80/`
+- Accessing other route: `http://127.0.0.1/`
+
+API documentation at: `http://127.0.0.1/swagger`
+
+### Database
+- H2
+
+### Table
 - User
 - Todo
 - SubTodo
